@@ -55,9 +55,10 @@ class _Repository:
 
     def receive_shipment(self, line):
         logistic_id = _Suppliers.get_logistics(self, line[0])
+        supplier_id = _Suppliers.get_supplier(self, line[0])
         _Logistics.receive_order(self, logistic_id, line[1])
         v_id = _Vaccines.get_next_id(self)
-        line = [v_id, line[2], logistic_id[0], line[1]]
+        line = [v_id, line[2], supplier_id[0], line[1]]
         vaccine = Vaccine(line)
         _Vaccines.insert(self, vaccine)
 

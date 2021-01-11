@@ -22,37 +22,32 @@ class _Vaccines:
                                      SELECT quantity 
                                      FROM vaccines
                                      WHERE id=(?) 
-                                        """,[int(oldest_row[0])])
+                                        """,[int(oldest_row[1])])
         num = int(c.fetchone()[0])
-        while (int(amount) > num):
+        while (int(amount) >= num):
             amount = int(amount) - num
             self._conn.execute("""
                                         DELETE FROM vaccines WHERE id=(?)
-                                    """, [oldest_row[0]])
+                                    """, [oldest_row[1]])
             oldest_row = _Vaccines.get_oldest_line(self)
             c.execute("""
                                                  SELECT quantity 
                                                  FROM vaccines
                                                  WHERE id=(?) 
-                                                    """, [int(oldest_row[0])])
+                                                    """, [int(oldest_row[1])])
             num = int(c.fetchone()[0])
         self._conn.execute("""
                                 UPDATE vaccines SET quantity=quantity-(?) WHERE id=(?)
-                        """, [int(amount),int(oldest_row[0])])
+                        """, [int(amount),int(oldest_row[1])])
 
     def get_oldest_line(self):
         c = self._conn.cursor()
         c.execute("""
-                             SELECT id, MIN(date) 
+                             SELECT date, id  
                              FROM vaccines 
+                             ORDER BY id ASC LIMIT 1;
                                 """)
         return c.fetchone()
-        # c.execute("""
-        # SELECT id, quantity
-        # FROM vaccines
-        # WHERE date=(?)
-        #                       """, [oldest_date])
-        # return c.fetchone()
 
     def get_total_inventory(self):
         c = self._conn.cursor()
@@ -76,6 +71,15 @@ class _Suppliers:
         c = self._conn.cursor()
         c.execute("""
                              SELECT logistic 
+                             FROM suppliers
+                             WHERE name = ?
+                                """, [name])
+        return c.fetchone()
+
+    def get_supplier(self, name):
+        c = self._conn.cursor()
+        c.execute("""
+                             SELECT id 
                              FROM suppliers
                              WHERE name = ?
                                 """, [name])
