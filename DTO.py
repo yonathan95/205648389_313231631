@@ -1,4 +1,6 @@
+# Data Transfer Objects:
 class Vaccine:
+    # constructor DTO Vaccine
     def __init__(self, line):
         self.id = line[0]
         self.date = line[1]
@@ -7,6 +9,7 @@ class Vaccine:
 
 
 class Supplier:
+    # constructor DTO Supplier
     def __init__(self, line):
         self.id = line[0]
         self.name = line[1]
@@ -14,6 +17,7 @@ class Supplier:
 
 
 class Clinic:
+    # constructor DTO Clinic
     def __init__(self, line):
         self.id = line[0]
         self.location = line[1]
@@ -22,6 +26,7 @@ class Clinic:
 
 
 class Logistic:
+    # constructor DTO Logistic
     def __init__(self, line):
         self.id = line[0]
         self.name = line[1]

@@ -25,6 +25,7 @@ if __name__ == '__main__':
         logistics = int(configs[3])
         lines = lines[::-1]
         lines.pop()
+        # inserting lines to tables
         for line in lines:
             if logistics > 0:
                 repo.logistics.insert(Logistic(line.split(',')))
@@ -42,7 +43,7 @@ if __name__ == '__main__':
                 repo.vaccines.insert(Vaccine(line.split(',')))
                 vaccines -= 1
                 continue
-
+    # processing orders
     with open(orders) as orders:
         for line in orders:
             line = line.split(',')
@@ -52,7 +53,7 @@ if __name__ == '__main__':
             else:
                 repo.receive_shipment(line)
                 output_lines.append(repo.summary())
-
+    # writing output
     with open(output, 'w') as output:
         for line in output_lines:
             writer = output.write(line)

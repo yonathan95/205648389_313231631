@@ -6,6 +6,7 @@ from DTO import Vaccine
 
 
 class _Repository:
+    # constructor _Repository
     def __init__(self):
         self._conn = sqlite3.connect('database.db')
         self.vaccines = _Vaccines(self._conn)
@@ -46,13 +47,14 @@ class _Repository:
             count_received  INTEGER        NOT NULL
         );
     """)
-
+    #process sent order.
     def send_shipment(self, line):
         _Vaccines.use(self, line[1])
         logistic_id = _Clinics.get_vaccines(self, line[0])
         _Clinics.use_vaccines(self, line[0], line[1])
         _Logistics.send_order(self, logistic_id, line[1])
 
+    # process receive order.
     def receive_shipment(self, line):
         logistic_id = _Suppliers.get_logistics(self, line[0])
         supplier_id = _Suppliers.get_supplier(self, line[0])
@@ -62,6 +64,7 @@ class _Repository:
         vaccine = Vaccine(line)
         _Vaccines.insert(self, vaccine)
 
+    # return summary line.
     def summary(self):
         total_inventory = _Vaccines.get_total_inventory(self)
         total_demand = _Clinics.get_total_demand(self)
