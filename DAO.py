@@ -108,6 +108,11 @@ class _Clinics:
                                     """)
         return c.fetchone()
 
+    def use_vaccines(self, location, amount):
+        self._conn.execute("""
+                                UPDATE clinics SET demand=demand-(?) WHERE location=(?)
+                        """, [int(amount), location])
+
 
 class _Logistics:
     def __init__(self, conn):

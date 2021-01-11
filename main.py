@@ -15,7 +15,7 @@ if __name__ == '__main__':
     clinics = 0
     logistics = 0
     repo = Repository._Repository()
-    #repo.create_tables()
+    repo.create_tables()
     with open(config) as config:
         lines = config.read().splitlines()
         configs = lines[0].split(',')

@@ -50,6 +50,7 @@ class _Repository:
     def send_shipment(self, line):
         _Vaccines.use(self, line[1])
         logistic_id = _Clinics.get_vaccines(self, line[0])
+        _Clinics.use_vaccines(self, line[0], line[1])
         _Logistics.send_order(self, logistic_id, line[1])
 
     def receive_shipment(self, line):
@@ -65,5 +66,5 @@ class _Repository:
         total_demand = _Clinics.get_total_demand(self)
         total_receive = _Logistics.get_total_receive(self)
         total_sent = _Logistics.get_total_sent(self)
-        output = "{},{},{},{}\n".format(total_inventory, total_demand, total_receive, total_sent)
+        output = "{},{},{},{}\n".format(total_inventory[0], total_demand[0], total_receive[0], total_sent[0])
         return output
